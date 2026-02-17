@@ -6,6 +6,7 @@ RUN sed -i \
     -e 's/^#LoadModule socache_shmcb_module/LoadModule socache_shmcb_module/' \
     -e 's/^#LoadModule proxy_module/LoadModule proxy_module/' \
     -e 's/^#LoadModule proxy_fcgi_module/LoadModule proxy_fcgi_module/' \
+    -e 's/^#LoadModule rewrite_module/LoadModule rewrite_module/' \
     conf/httpd.conf
 
 # Remove default SSL configuration (conflict with custom vhost)
