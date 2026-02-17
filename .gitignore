@@ -1,0 +1,9 @@
+
+
+# Apache logs
+docker/apache/logs/*
+
+# Local SSL certificates (mkcert)
+docker/apache/ssl/*.crt
+docker/apache/ssl/*.key
+docker/apache/ssl/*.pem
