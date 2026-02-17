@@ -50,6 +50,8 @@ Add the following line: `127.0.0.1 sample01.dev`
 
 Run: `docker compose up -d --build`
 
+Application code lives in `apps/web` (mounted to `/var/www/web` inside containers).
+
 Then open the following URL in your browser: https://sample01.dev
 
 You should see a valid HTTPS connection with no browser warning.
@@ -62,4 +64,3 @@ If mkcert was previously installed manually and the command does not resolve cor
 `hash -r`
 
 Then retry the mkcert commands.
-
