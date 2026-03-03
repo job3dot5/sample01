@@ -21,7 +21,7 @@ final class DashboardController extends AbstractController
         KernelInterface $kernel,
         RouterInterface $router,
         ParameterBagInterface $params,
-        Request $request
+        Request $request,
     ): Response {
         $routes = $this->collectRoutes($router);
 
@@ -37,7 +37,7 @@ final class DashboardController extends AbstractController
             'environment' => (string) $params->get('kernel.environment'),
             'writable_var' => is_writable($varDir) ? 'yes' : 'no',
             'writable_public' => is_writable($publicDir) ? 'yes' : 'no',
-            'duration_ms' => $durationMs ? sprintf('%.2f ms', $durationMs) : 'n/a',
+            'duration_ms' => $durationMs ? \sprintf('%.2f ms', $durationMs) : 'n/a',
         ];
 
         return $this->render('dashboard/index.html.twig', [
@@ -65,11 +65,11 @@ final class DashboardController extends AbstractController
         $durationMs = $start ? (microtime(true) - (float) $start) * 1000 : null;
 
         $rows = [
-            'php_version' => PHP_VERSION,
+            'php_version' => \PHP_VERSION,
             'symfony_version' => Kernel::VERSION,
             'writable_var' => is_writable($varDir) ? 'yes' : 'no',
             'writable_public' => is_writable($publicDir) ? 'yes' : 'no',
-            'duration_ms' => $durationMs ? sprintf('%.2f ms', $durationMs) : 'n/a',
+            'duration_ms' => $durationMs ? \sprintf('%.2f ms', $durationMs) : 'n/a',
         ];
 
         return $this->render('dashboard/health.html.twig', [
@@ -91,7 +91,7 @@ final class DashboardController extends AbstractController
         }
 
         $content = @file_get_contents($path);
-        if ($content === false) {
+        if (false === $content) {
             return new Response(
                 'sitemap.xml could not be read',
                 Response::HTTP_NOT_FOUND,
@@ -102,6 +102,9 @@ final class DashboardController extends AbstractController
         return new Response($content, Response::HTTP_OK, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }
 
+    /**
+     * @return array<int, array{name: string, path: string, methods: string}>
+     */
     private function collectRoutes(RouterInterface $router): array
     {
         $rows = [];
@@ -115,7 +118,7 @@ final class DashboardController extends AbstractController
             ];
         }
 
-        usort($rows, static fn (array $a, array $b): int => $a['path'] <=> $b['path']);
+        array_multisort(array_column($rows, 'path'), \SORT_ASC, $rows);
 
         return $rows;
     }

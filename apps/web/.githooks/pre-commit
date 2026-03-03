@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v composer >/dev/null 2>&1; then
+  echo "composer not found; skipping checks." >&2
+  exit 0
+fi
+
+if [ ! -f "composer.json" ]; then
+  echo "composer.json not found; run from apps/web or update the hook." >&2
+  exit 1
+fi
+
+composer cs:check

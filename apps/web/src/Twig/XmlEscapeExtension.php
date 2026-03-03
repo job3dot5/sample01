@@ -12,7 +12,7 @@ final class XmlEscapeExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('xml_escape', static fn (string $value): string => htmlspecialchars($value, ENT_XML1 | ENT_QUOTES, 'UTF-8')),
+            new TwigFilter('xml_escape', static fn (string $value): string => htmlspecialchars($value, \ENT_XML1 | \ENT_QUOTES, 'UTF-8')),
         ];
     }
 }
