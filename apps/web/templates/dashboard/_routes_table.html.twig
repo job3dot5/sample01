@@ -1,0 +1,18 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Path</th>
+        <th>Methods</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for route in routes %}
+        <tr>
+            <td>{{ route.name }}</td>
+            <td>{{ route.path }}</td>
+            <td>{{ route.methods }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

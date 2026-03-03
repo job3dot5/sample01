@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        :root {
+            --bg: #f5f3ef;
+            --card: #ffffff;
+            --text: #1f1f1f;
+            --muted: #6b6b6b;
+            --accent: #2b6cb0;
+            --border: #e2e0db;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "IBM Plex Sans", "Segoe UI", Tahoma, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+        }
+        main {
+            max-width: 920px;
+            margin: 48px auto;
+            padding: 0 20px 60px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 24px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 0.2px;
+        }
+        nav a {
+            margin-left: 12px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        nav a:first-child { margin-left: 0; }
+        section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(20, 20, 20, 0.06);
+        }
+        section h2 {
+            margin: 0 0 14px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .table th, .table td {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .table th {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .dl {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            row-gap: 8px;
+            column-gap: 12px;
+        }
+        .dl dt { color: var(--muted); }
+        .dl dd { margin: 0; font-weight: 600; }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>{% block header_title %}{% endblock %}</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/routes">Routes</a>
+            <a href="/health">Health</a>
+            <a href="/sitemap">Sitemap</a>
+        </nav>
+    </header>
+    {% block body %}{% endblock %}
+</main>
+</body>
+</html>

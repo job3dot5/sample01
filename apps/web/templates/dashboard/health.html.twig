@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Health{% endblock %}
+{% block header_title %}Health{% endblock %}
+
+{% block body %}
+    <section>
+        <h2>Health check</h2>
+        <dl class="dl">
+            <dt>PHP</dt>
+            <dd>{{ rows.php_version }}</dd>
+            <dt>Symfony</dt>
+            <dd>{{ rows.symfony_version }}</dd>
+            <dt>Writable var/</dt>
+            <dd>{{ rows.writable_var }}</dd>
+            <dt>Writable public/</dt>
+            <dd>{{ rows.writable_public }}</dd>
+            <dt>Execution time</dt>
+            <dd>{{ rows.duration_ms }}</dd>
+        </dl>
+    </section>
+{% endblock %}

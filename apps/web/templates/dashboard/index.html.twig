@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block header_title %}Dashboard{% endblock %}
+
+{% block body %}
+    <section>
+        <h2>System</h2>
+        <dl class="dl">
+            <dt>Symfony</dt>
+            <dd>{{ stats.symfony_version }}</dd>
+            <dt>Environment</dt>
+            <dd>{{ stats.environment }}</dd>
+            <dt>Writable var/</dt>
+            <dd>{{ stats.writable_var }}</dd>
+            <dt>Writable public/</dt>
+            <dd>{{ stats.writable_public }}</dd>
+            <dt>Execution time</dt>
+            <dd>{{ stats.duration_ms }}</dd>
+        </dl>
+    </section>
+
+    <section>
+        <h2>Routes</h2>
+        {% include 'dashboard/_routes_table.html.twig' with { routes: routes } %}
+    </section>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Routes{% endblock %}
+{% block header_title %}Routes{% endblock %}
+
+{% block body %}
+    <section>
+        <h2>Routes</h2>
+        {% include 'dashboard/_routes_table.html.twig' with { routes: routes } %}
+    </section>
+{% endblock %}
