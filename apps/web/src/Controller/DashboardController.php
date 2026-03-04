@@ -81,13 +81,13 @@ final class DashboardController extends AbstractController
     }
 
     /**
-     * Routes are cached for 60 seconds
+     * Routes are cached for 60 seconds.
      *
      * @return array<int, array{name: string, path: string, methods: string}>
      */
     private function collectRoutes(RouterInterface $router, CacheInterface $cache): array
     {
-        return $cache->get('dashboard.routes', function (ItemInterface $item) use ($router): array {
+        return $cache->get('dashboard.routes', static function (ItemInterface $item) use ($router): array {
             $item->expiresAfter(60);
 
             $rows = [];

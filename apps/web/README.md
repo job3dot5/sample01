@@ -28,19 +28,14 @@ DEFAULT_URI=https://sample01.dev
 
 Hooks are not installed automatically by Git. Use symlinks so updates to the hook files are picked up automatically.
 
-From `apps/web`:
+From `[project-root]/.git/hooks`
 
 ```
-ln -s .githooks/pre-commit ../../.git/hooks/pre-commit
-ln -s .githooks/pre-push ../../.git/hooks/pre-push
+ln -s ../../apps/web/.githooks/pre-commit pre-commit
+ln -s ../../apps/web/.githooks/pre-push pre-push
 ```
 
-If a hook already exists:
-
-```
-rm ../../.git/hooks/pre-commit
-rm ../../.git/hooks/pre-push
-```
+If a hook already exists remove it.
 
 Hook behavior:
 - `pre-commit`: runs `composer cs:check`
