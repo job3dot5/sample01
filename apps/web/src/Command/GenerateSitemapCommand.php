@@ -58,6 +58,7 @@ final class GenerateSitemapCommand extends Command
             }
         }
 
+        $urls = array_values(array_unique($urls));
         sort($urls);
 
         $xml = $this->renderXml($urls);

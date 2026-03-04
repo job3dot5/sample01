@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url><loc>https://sample01.dev/</loc></url>
+    <url><loc>https://sample01.dev/dashboard</loc></url>
     <url><loc>https://sample01.dev/health</loc></url>
     <url><loc>https://sample01.dev/routes</loc></url>
-    <url><loc>https://sample01.dev/sitemap</loc></url>
+    <url><loc>https://sample01.dev/sitemap.xml</loc></url>
 </urlset>

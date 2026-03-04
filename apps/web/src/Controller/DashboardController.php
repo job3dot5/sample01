@@ -12,18 +12,21 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
-#[Route(name: 'app_')]
+#[Route(name: 'dashboard_', methods: ['GET', 'HEAD'])]
 final class DashboardController extends AbstractController
 {
-    #[Route('/', name: 'dashboard')]
+    #[Route('/dashboard', name: 'index')]
     public function index(
         KernelInterface $kernel,
         RouterInterface $router,
         ParameterBagInterface $params,
         Request $request,
+        CacheInterface $cache,
     ): Response {
-        $routes = $this->collectRoutes($router);
+        $routes = $this->collectRoutes($router, $cache);
 
         $projectDir = $kernel->getProjectDir();
         $varDir = $projectDir.'/var';
@@ -47,10 +50,10 @@ final class DashboardController extends AbstractController
     }
 
     #[Route('/routes', name: 'routes')]
-    public function routes(RouterInterface $router): Response
+    public function routes(RouterInterface $router, CacheInterface $cache): Response
     {
         return $this->render('dashboard/routes.html.twig', [
-            'routes' => $this->collectRoutes($router),
+            'routes' => $this->collectRoutes($router, $cache),
         ]);
     }
 
@@ -77,49 +80,30 @@ final class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/sitemap', name: 'sitemap')]
-    public function sitemap(ParameterBagInterface $params): Response
-    {
-        $path = rtrim((string) $params->get('app.public_dir'), '/').'/sitemap.xml';
-
-        if (!is_file($path)) {
-            return new Response(
-                'sitemap.xml not found. Generate it with: php bin/console app:generate-sitemap',
-                Response::HTTP_NOT_FOUND,
-                ['Content-Type' => 'text/plain; charset=UTF-8']
-            );
-        }
-
-        $content = @file_get_contents($path);
-        if (false === $content) {
-            return new Response(
-                'sitemap.xml could not be read',
-                Response::HTTP_NOT_FOUND,
-                ['Content-Type' => 'text/plain; charset=UTF-8']
-            );
-        }
-
-        return new Response($content, Response::HTTP_OK, ['Content-Type' => 'application/xml; charset=UTF-8']);
-    }
-
     /**
+     * Routes are cached for 60 seconds
+     *
      * @return array<int, array{name: string, path: string, methods: string}>
      */
-    private function collectRoutes(RouterInterface $router): array
+    private function collectRoutes(RouterInterface $router, CacheInterface $cache): array
     {
-        $rows = [];
-        foreach ($router->getRouteCollection()->all() as $name => $route) {
-            $path = $route->getPath();
-            $methods = $route->getMethods();
-            $rows[] = [
-                'name' => $name,
-                'path' => $path,
-                'methods' => $methods ? implode(', ', $methods) : 'ANY',
-            ];
-        }
+        return $cache->get('dashboard.routes', function (ItemInterface $item) use ($router): array {
+            $item->expiresAfter(60);
 
-        array_multisort(array_column($rows, 'path'), \SORT_ASC, $rows);
+            $rows = [];
+            foreach ($router->getRouteCollection()->all() as $name => $route) {
+                $path = $route->getPath();
+                $methods = $route->getMethods();
+                $rows[] = [
+                    'name' => $name,
+                    'path' => $path,
+                    'methods' => $methods ? implode(', ', $methods) : 'ANY',
+                ];
+            }
 
-        return $rows;
+            array_multisort(array_column($rows, 'path'), \SORT_ASC, $rows);
+
+            return $rows;
+        });
     }
 }

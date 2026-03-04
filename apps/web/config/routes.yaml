@@ -10,3 +10,13 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+    name_prefix: app_
+
+root:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    methods: [GET, HEAD]
+    defaults:
+        route: app_dashboard_index
+        permanent: true
+
