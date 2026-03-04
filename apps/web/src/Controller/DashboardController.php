@@ -18,7 +18,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 #[Route(name: 'dashboard_', methods: ['GET', 'HEAD'])]
 final class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'index')]
+    #[Route('/dashboard', name: 'index', defaults: ['sitemap' => true])]
     public function index(
         KernelInterface $kernel,
         RouterInterface $router,
@@ -49,7 +49,7 @@ final class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/routes', name: 'routes')]
+    #[Route('/routes', name: 'routes', defaults: ['sitemap' => true])]
     public function routes(RouterInterface $router, CacheInterface $cache): Response
     {
         return $this->render('dashboard/routes.html.twig', [
@@ -57,7 +57,7 @@ final class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/health', name: 'health')]
+    #[Route('/health', name: 'health', defaults: ['sitemap' => true])]
     public function health(KernelInterface $kernel, ParameterBagInterface $params, Request $request): Response
     {
         $projectDir = $kernel->getProjectDir();

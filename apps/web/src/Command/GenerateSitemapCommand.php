@@ -51,6 +51,10 @@ final class GenerateSitemapCommand extends Command
                 continue;
             }
 
+            if (true !== $route->getDefault('sitemap')) {
+                continue;
+            }
+
             try {
                 $urls[] = $this->router->generate($name, [], UrlGeneratorInterface::ABSOLUTE_URL);
             } catch (\Throwable $e) {
