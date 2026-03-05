@@ -1,6 +1,25 @@
-# sample01
+# PHP / Symfony Technical Showcase
 
-## Local development setup
+This repository is a small Symfony project created as a technical showcase.
+The goal is not to build a full application but to demonstrate clean architecture, development tooling, and a few features.
+
+The project includes a Docker development environment and a minimal Symfony application exposing several technical endpoints:
+
+- Dashboard – overview page
+- Route inspector – lists application routes
+- Health check – basic runtime diagnostics
+- SEO sitemap generator – CLI command generating sitemap.xml
+
+Technical Stack
+
+- PHP 8
+- Symfony (LTS)
+- Docker / Docker Compose
+
+More details about the Symfony application can be found in: 
+[apps/web/README.md](apps/web/README.md)
+
+# How to setup local development 
 
 This project uses HTTPS locally with the custom domain `sample01.dev`
 

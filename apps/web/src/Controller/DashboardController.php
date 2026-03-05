@@ -28,24 +28,11 @@ final class DashboardController extends AbstractController
     ): Response {
         $routes = $this->collectRoutes($router, $cache);
 
-        $projectDir = $kernel->getProjectDir();
-        $varDir = $projectDir.'/var';
-        $publicDir = (string) $params->get('app.public_dir');
-
-        $start = $request->server->get('REQUEST_TIME_FLOAT');
-        $durationMs = $start ? (microtime(true) - (float) $start) * 1000 : null;
-
-        $stats = [
-            'symfony_version' => Kernel::VERSION,
-            'environment' => (string) $params->get('kernel.environment'),
-            'writable_var' => is_writable($varDir) ? 'yes' : 'no',
-            'writable_public' => is_writable($publicDir) ? 'yes' : 'no',
-            'duration_ms' => $durationMs ? \sprintf('%.2f ms', $durationMs) : 'n/a',
-        ];
+        $stats = $this->buildStats($kernel, $params, $request);
 
         return $this->render('dashboard/index.html.twig', [
-            'stats' => $stats,
             'routes' => $routes,
+            'stats' => $stats,
         ]);
     }
 
@@ -60,23 +47,10 @@ final class DashboardController extends AbstractController
     #[Route('/health', name: 'health', defaults: ['sitemap' => true])]
     public function health(KernelInterface $kernel, ParameterBagInterface $params, Request $request): Response
     {
-        $projectDir = $kernel->getProjectDir();
-        $varDir = $projectDir.'/var';
-        $publicDir = (string) $params->get('app.public_dir');
-
-        $start = $request->server->get('REQUEST_TIME_FLOAT');
-        $durationMs = $start ? (microtime(true) - (float) $start) * 1000 : null;
-
-        $rows = [
-            'php_version' => \PHP_VERSION,
-            'symfony_version' => Kernel::VERSION,
-            'writable_var' => is_writable($varDir) ? 'yes' : 'no',
-            'writable_public' => is_writable($publicDir) ? 'yes' : 'no',
-            'duration_ms' => $durationMs ? \sprintf('%.2f ms', $durationMs) : 'n/a',
-        ];
+        $stats = $this->buildStats($kernel, $params, $request);
 
         return $this->render('dashboard/health.html.twig', [
-            'rows' => $rows,
+            'stats' => $stats,
         ]);
     }
 
@@ -105,5 +79,37 @@ final class DashboardController extends AbstractController
 
             return $rows;
         });
+    }
+
+    /**
+     * @return array{
+     *     php_version: string,
+     *     symfony_version: string,
+     *     environment: string,
+     *     writable_var: string,
+     *     writable_public: string,
+     *     duration_ms: string
+     * }
+     */
+    private function buildStats(
+        KernelInterface $kernel,
+        ParameterBagInterface $params,
+        Request $request,
+    ): array {
+        $projectDir = $kernel->getProjectDir();
+        $varDir = $projectDir.'/var';
+        $publicDir = (string) $params->get('app.public_dir');
+
+        $start = $request->server->get('REQUEST_TIME_FLOAT');
+        $durationMs = $start ? (microtime(true) - (float) $start) * 1000 : null;
+
+        return [
+            'php_version' => \PHP_VERSION,
+            'symfony_version' => Kernel::VERSION,
+            'environment' => (string) $params->get('kernel.environment'),
+            'writable_var' => is_writable($varDir) ? 'yes' : 'no',
+            'writable_public' => is_writable($publicDir) ? 'yes' : 'no',
+            'duration_ms' => $durationMs ? \sprintf('%.2f ms', $durationMs) : 'n/a',
+        ];
     }
 }
