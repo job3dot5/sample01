@@ -3,23 +3,46 @@
 This repository is a small Symfony project created as a technical showcase.
 The goal is not to build a full application but to demonstrate clean architecture, development tooling, and a few features.
 
-The project includes a Docker development environment and a minimal Symfony application exposing several technical endpoints:
+The project includes a Docker development environment and a minimal Symfony application exposing technical endpoints and a protected dashboard.
 
-- Dashboard – overview page
-- Route inspector – lists application routes
-- Health check – basic runtime diagnostics
-- SEO sitemap generator – CLI command generating sitemap.xml
+## Features
 
-Technical Stack
+- Dashboard (`/dashboard`) – overview page
+- Route inspector (`/routes`) – lists application routes
+- Health check (`/health`) – basic runtime diagnostics
+- About page (`/about`)
+- Login page (`/login`) and logout (`/logout`)
+- SEO sitemap generator – CLI command generating `public/sitemap.xml`
+
+## Endpoint access
+
+- Public: `/login`, `/logout`, `/about`, `/sitemap.xml`
+- Protected (requires authentication): `/dashboard`, `/routes`, `/health`
+
+## Technical Stack
 
 - PHP 8
 - Symfony (LTS)
+- Doctrine DBAL
+- SQLite (`apps/web/var/app.db`)
 - Docker / Docker Compose
 
-More details about the Symfony application can be found in: 
+More details about the Symfony application can be found in:
 [apps/web/README.md](apps/web/README.md)
 
-# How to setup local development 
+## Dashboard authentication
+
+Dashboard endpoints use Symfony Security form login with credentials stored in SQLite.
+
+Create or update a user from inside the web container:
+
+```bash
+php bin/console app:dashboard-user:create <username>
+```
+
+If `--password` is not provided, the command prompts for it.
+
+## How to setup local development
 
 This project uses HTTPS locally with the custom domain `sample01.dev`
 

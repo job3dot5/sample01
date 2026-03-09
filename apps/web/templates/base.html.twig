@@ -5,16 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/css/base.css" />
+    {% block stylesheets %}{% endblock %}
 </head>
 <body>
 <main>
     <header>
         <h1>{% block header_title %}{% endblock %}</h1>
         <nav>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/routes">Routes</a>
-            <a href="/health">Health</a>
-            <a href="/sitemap.xml">Sitemap</a>
+            {% if app.user %}
+                <a href="{{ path('app_dashboard_index') }}">Dashboard</a>
+                <a href="{{ path('app_dashboard_routes') }}">Routes</a>
+                <a href="{{ path('app_dashboard_health') }}">Health</a>
+                <a href="{{ path('app_seo_sitemap_xml') }}">Sitemap</a>
+                <a href="{{ path('app_dashboard_about') }}">About</a>
+                <a href="{{ path('app_logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ path('app_login') }}">Login</a>
+                <a href="{{ path('app_dashboard_about') }}">About</a>
+                <a href="{{ path('app_seo_sitemap_xml') }}">Sitemap</a>
+            {% endif %}
         </nav>
     </header>
     {% block body %}{% endblock %}

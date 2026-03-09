@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/login.css" />
+{% endblock %}
+{% block header_title %}Sign in{% endblock %}
+
+{% block body %}
+    <section>
+        <h2>Authentication</h2>
+        <p class="lead">Sign in to access the dashboard.</p>
+
+        {% if error %}
+            <p class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+        {% endif %}
+
+        <form method="post" class="auth-form" novalidate>
+            <label for="username">Username</label>
+            <input id="username" name="_username" type="text" value="{{ last_username }}" autocomplete="username" required autofocus>
+
+            <label for="password">Password</label>
+            <input id="password" name="_password" type="password" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit">Sign in</button>
+        </form>
+    </section>
+{% endblock %}

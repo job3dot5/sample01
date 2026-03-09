@@ -1,27 +1,31 @@
-
 # PHP / Symfony Technical Showcase
 
-The goal of this app is to illustrate pragmatic development practices rather than building a full product with:
+The goal of this app is to illustrate pragmatic development practices rather than building a full product, with:
 - a clean development environment
-- basic backend type features
+- basic backend features
 - automated code quality checks
 
 ## Features Demonstrated
 
-The Symfony application contains a few simple endpoints illustrating common backend concerns:
-
-- Dashboard – overview page
-- Route inspector – lists application routes
-- Health check – basic runtime diagnostics
-- SEO sitemap generator – CLI command generating sitemap.xml
+- Dashboard (`/dashboard`) – overview page
+- Route inspector (`/routes`) – lists application routes
+- Health check (`/health`) – basic runtime diagnostics
+- About page (`/about`)
+- Login (`/login`) / logout (`/logout`) with Symfony Security form auth
+- SEO sitemap generator – CLI command generating `public/sitemap.xml`
 - Cached route listing – example usage of Symfony Cache
 
-These endpoints are intentionally simple and focus on backend logic rather than frontend design.
+## Endpoint access
+
+- Public: `/login`, `/logout`, `/about`, `/sitemap.xml`
+- Protected: `/dashboard`, `/routes`, `/health`
 
 ## Technical Stack
 
 - PHP 8
 - Symfony (LTS)
+- Doctrine DBAL
+- SQLite (database file: `var/app.db`)
 - Docker / Docker Compose
 
 ## Development tooling
@@ -31,25 +35,33 @@ These endpoints are intentionally simple and focus on backend logic rather than 
 - Git hooks (pre-commit / pre-push)
 - GitHub Actions CI
 
+## How to install
 
-# How to install
+### 1. Follow the docker environment install [here](../../README.md)
 
-## 1. Follow the docker environment install [here](../../README.md) 
+### 2. composer install
+Enter your web container from your host machine to install composer modules:
 
-## 2. composer install
-Enter your web container from your host machine to install composer modules :
 ```bash
-docker compsoe exec php /bin/bash
+docker compose exec php /bin/bash
 composer install
 ```
 
-## 3. Git hooks
+### 3. Create a dashboard user
+
+```bash
+php bin/console app:dashboard-user:create <username>
+```
+
+If `--password` is omitted, the command prompts for it.
+
+### 4. Git hooks
 
 Hooks are not installed automatically by Git. Use symlinks so updates to the hook files are picked up automatically.
 
 From `[project-root]/.git/hooks`
 
-```
+```bash
 ln -s ../../apps/web/.githooks/pre-commit pre-commit
 ln -s ../../apps/web/.githooks/pre-push pre-push
 ```

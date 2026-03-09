@@ -34,23 +34,7 @@ final class GenerateSitemapCommand extends Command
 
         $urls = [];
         foreach ($routes as $name => $route) {
-            // ignore symfony internal routes
-            if (str_starts_with($name, '_')) {
-                continue;
-            }
-
-            // ignore parametrized routes like /user/{id}
-            $path = $route->getPath();
-            if (str_contains($path, '{')) {
-                continue;
-            }
-
-            // ignore everything but GET routes
-            $methods = $route->getMethods();
-            if ($methods && !\in_array('GET', $methods, true)) {
-                continue;
-            }
-
+            // only sitemap tagged routes are allowed
             if (true !== $route->getDefault('sitemap')) {
                 continue;
             }

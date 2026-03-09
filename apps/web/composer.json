@@ -9,11 +9,15 @@
         "ext-iconv": "*",
         "symfony/console": "7.4.*",
         "symfony/dotenv": "7.4.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.10",
         "symfony/framework-bundle": "7.4.*",
+        "symfony/password-hasher": "7.4.*",
         "symfony/runtime": "7.4.*",
+        "symfony/security-bundle": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
-        "symfony/yaml": "7.4.*"
+        "symfony/yaml": "7.4.*",
+        "doctrine/dbal": "^4.4.2",
+        "doctrine/doctrine-bundle": "^2.18.2"
     },
     "config": {
         "allow-plugins": {
@@ -35,8 +39,8 @@
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.94",
-        "phpstan/phpstan": "^2.1"
+        "friendsofphp/php-cs-fixer": "^3.94.2",
+        "phpstan/phpstan": "^2.1.40"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",

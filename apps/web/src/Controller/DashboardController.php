@@ -18,7 +18,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 #[Route(name: 'dashboard_', methods: ['GET', 'HEAD'])]
 final class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'index', defaults: ['sitemap' => true])]
+    #[Route('/dashboard', name: 'index')]
     public function index(
         KernelInterface $kernel,
         RouterInterface $router,
@@ -26,17 +26,16 @@ final class DashboardController extends AbstractController
         Request $request,
         CacheInterface $cache,
     ): Response {
+        $stats = $this->buildStats($kernel, $params, $request);
         $routes = $this->collectRoutes($router, $cache);
 
-        $stats = $this->buildStats($kernel, $params, $request);
-
         return $this->render('dashboard/index.html.twig', [
-            'routes' => $routes,
             'stats' => $stats,
+            'routes' => $routes,
         ]);
     }
 
-    #[Route('/routes', name: 'routes', defaults: ['sitemap' => true])]
+    #[Route('/routes', name: 'routes')]
     public function routes(RouterInterface $router, CacheInterface $cache): Response
     {
         return $this->render('dashboard/routes.html.twig', [
@@ -44,7 +43,7 @@ final class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/health', name: 'health', defaults: ['sitemap' => true])]
+    #[Route('/health', name: 'health')]
     public function health(KernelInterface $kernel, ParameterBagInterface $params, Request $request): Response
     {
         $stats = $this->buildStats($kernel, $params, $request);
@@ -52,6 +51,12 @@ final class DashboardController extends AbstractController
         return $this->render('dashboard/health.html.twig', [
             'stats' => $stats,
         ]);
+    }
+
+    #[Route('/about', name: 'about', defaults: ['sitemap' => true])]
+    public function about(KernelInterface $kernel): Response
+    {
+        return $this->render('dashboard/about.html.twig');
     }
 
     /**
