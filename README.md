@@ -1,6 +1,12 @@
-# PHP / Symfony Technical Showcase
+# Symfony Backend Technical Showcase
 
-This repository is a small Symfony project created as a technical showcase.
+[![PHP](https://img.shields.io/badge/PHP-8.3-blue)](https://www.php.net/)
+[![Symfony](https://img.shields.io/badge/Symfony-LTS-black)](https://symfony.com/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![CI](https://github.com/job3dot5/sample01/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/actions)
+
+This repository contains a small Symfony backend project used as a technical showcase.
+
 The goal is not to build a full application but to demonstrate clean architecture, development tooling, and a few features.
 
 The project includes a Docker development environment and a minimal Symfony application exposing technical endpoints and a protected dashboard.
@@ -11,7 +17,7 @@ The project includes a Docker development environment and a minimal Symfony appl
 - Route inspector (`/routes`) – lists application routes
 - Health check (`/health`) – basic runtime diagnostics
 - Login (`/login`) / logout (`/logout`) with Symfony Security form auth
-- IP request rate limiter (`5` requests / `30` seconds by default)
+- IP request rate limiter (5 requests / 30 seconds)
 - SEO sitemap generator – CLI command generating `public/sitemap.xml`
 - Symfony cache in route listing and IP request rate limiter
 

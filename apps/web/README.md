@@ -1,6 +1,11 @@
-# PHP / Symfony Technical Showcase
+# Symfony Backend Technical Showcase
 
-The goal of this app is to illustrate pragmatic development practices rather than building a full product, with:
+[![PHP](https://img.shields.io/badge/PHP-8.3-blue)](https://www.php.net/)
+[![Symfony](https://img.shields.io/badge/Symfony-LTS-black)](https://symfony.com/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![CI](https://github.com/job3dot5/sample01/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/actions)
+
+The goal of this application is to illustrate pragmatic backend development practices rather than building a full product with :
 - a clean development environment
 - basic backend features
 - automated code quality checks
@@ -11,9 +16,15 @@ The goal of this app is to illustrate pragmatic development practices rather tha
 - Route inspector (`/routes`) – lists application routes
 - Health check (`/health`) – basic runtime diagnostics
 - Login (`/login`) / logout (`/logout`) with Symfony Security form auth
-- IP request rate limiter (`5` requests / `30` seconds by default)
+- IP request rate limiter (e.g 5 requests / 30 seconds)
 - SEO sitemap generator – CLI command generating `public/sitemap.xml`
 - Symfony cache in route listing and IP request rate limiter
+
+## Screenshots
+
+![Login](docs/images/sample01-screen-login.png)
+
+![Dashboard](docs/images/sample01-screen-dashboard.png)
 
 ## Technical Stack
 
@@ -81,10 +92,6 @@ Requirement when using container mode: the `php` service must be running (`docke
 ## Run tests
 
 Run the full PHPUnit suite (including smoke test and any test files in `tests/`):
-
-```bash
-composer test
-```
 
 From host machine (containerized tooling):
 
