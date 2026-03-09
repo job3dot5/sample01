@@ -71,3 +71,13 @@ If a hook already exists remove it.
 Hook behavior:
 - `pre-commit`: runs `composer cs:check`
 - `pre-push`: runs `composer lint`
+
+## Hooks from host machine
+
+You can run Git from the host machine without installing Composer locally.
+
+- If host `composer` exists, hooks run Composer commands directly in `apps/web`.
+- If host `composer` is missing, hooks run Composer inside the `php` container via `docker compose exec`.
+- If neither `composer` nor `docker` is available, hooks fail.
+
+Requirement when using container mode: the `php` service must be running (`docker compose up -d`).
