@@ -11,11 +11,13 @@ fi
 
 if command -v composer >/dev/null 2>&1; then
   composer --working-dir="$APP_DIR" cs:check
+  composer --working-dir="$APP_DIR" test
   exit 0
 fi
 
 if command -v docker >/dev/null 2>&1; then
   docker compose -f "$REPO_ROOT/docker-compose.yml" exec -T php composer --working-dir=/var/www/web cs:check
+  docker compose -f "$REPO_ROOT/docker-compose.yml" exec -T php composer --working-dir=/var/www/web test
   exit 0
 fi
 

@@ -7,6 +7,9 @@ on:
 jobs:
   docker-build-lint:
     runs-on: ubuntu-latest
+    env:
+      WEB_MOUNT: ${{ github.workspace }}/apps/web:/var/www/web
+      WEB_WORKDIR: /var/www/web
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,8 +39,8 @@ jobs:
             -e COMPOSER_ALLOW_SUPERUSER=1 \
             -e COMPOSER_CACHE_DIR=/tmp/composer-cache \
             -v "$HOME/.composer/cache:/tmp/composer-cache" \
-            -v "$PWD/apps/web:/var/www/web" \
-            -w /var/www/web \
+            -v "$WEB_MOUNT" \
+            -w "$WEB_WORKDIR" \
             sample01-php \
             composer install --no-interaction --no-progress
 
@@ -45,8 +48,8 @@ jobs:
         run: |
           docker run --rm \
             -e COMPOSER_ALLOW_SUPERUSER=1 \
-            -v "$PWD/apps/web:/var/www/web" \
-            -w /var/www/web \
+            -v "$WEB_MOUNT" \
+            -w "$WEB_WORKDIR" \
             sample01-php \
             composer lint
 
@@ -54,7 +57,16 @@ jobs:
         run: |
           docker run --rm \
             -e COMPOSER_ALLOW_SUPERUSER=1 \
-            -v "$PWD/apps/web:/var/www/web" \
-            -w /var/www/web \
+            -v "$WEB_MOUNT" \
+            -w "$WEB_WORKDIR" \
             sample01-php \
             composer cs:check
+
+      - name: Tests (PHPUnit)
+        run: |
+          docker run --rm \
+            -e COMPOSER_ALLOW_SUPERUSER=1 \
+            -v "$WEB_MOUNT" \
+            -w "$WEB_WORKDIR" \
+            sample01-php \
+            composer test

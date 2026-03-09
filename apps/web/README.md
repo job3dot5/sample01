@@ -10,15 +10,10 @@ The goal of this app is to illustrate pragmatic development practices rather tha
 - Dashboard (`/dashboard`) – overview page
 - Route inspector (`/routes`) – lists application routes
 - Health check (`/health`) – basic runtime diagnostics
-- About page (`/about`)
 - Login (`/login`) / logout (`/logout`) with Symfony Security form auth
+- IP request rate limiter (`5` requests / `30` seconds by default)
 - SEO sitemap generator – CLI command generating `public/sitemap.xml`
-- Cached route listing – example usage of Symfony Cache
-
-## Endpoint access
-
-- Public: `/login`, `/logout`, `/about`, `/sitemap.xml`
-- Protected: `/dashboard`, `/routes`, `/health`
+- Symfony cache in route listing and IP request rate limiter
 
 ## Technical Stack
 
@@ -32,6 +27,7 @@ The goal of this app is to illustrate pragmatic development practices rather tha
 
 - PHPStan (static analysis)
 - PHP-CS-Fixer (code style)
+- PHPUnit
 - Git hooks (pre-commit / pre-push)
 - GitHub Actions CI
 
@@ -69,7 +65,7 @@ ln -s ../../apps/web/.githooks/pre-push pre-push
 If a hook already exists remove it.
 
 Hook behavior:
-- `pre-commit`: runs `composer cs:check`
+- `pre-commit`: runs `composer cs:check` then `composer test`
 - `pre-push`: runs `composer lint`
 
 ## Hooks from host machine
@@ -81,3 +77,24 @@ You can run Git from the host machine without installing Composer locally.
 - If neither `composer` nor `docker` is available, hooks fail.
 
 Requirement when using container mode: the `php` service must be running (`docker compose up -d`).
+
+## Run tests
+
+Run the full PHPUnit suite (including smoke test and any test files in `tests/`):
+
+```bash
+composer test
+```
+
+From host machine (containerized tooling):
+
+```bash
+docker compose -f ../../docker-compose.yml exec -T php composer --working-dir=/var/www/web test
+```
+
+## CI checks
+
+GitHub Actions runs:
+- `composer lint`
+- `composer cs:check`
+- `composer test`

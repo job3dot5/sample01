@@ -5,42 +5,34 @@ The goal is not to build a full application but to demonstrate clean architectur
 
 The project includes a Docker development environment and a minimal Symfony application exposing technical endpoints and a protected dashboard.
 
-## Features
+## Features Demonstrated
 
 - Dashboard (`/dashboard`) – overview page
 - Route inspector (`/routes`) – lists application routes
 - Health check (`/health`) – basic runtime diagnostics
-- About page (`/about`)
-- Login page (`/login`) and logout (`/logout`)
+- Login (`/login`) / logout (`/logout`) with Symfony Security form auth
+- IP request rate limiter (`5` requests / `30` seconds by default)
 - SEO sitemap generator – CLI command generating `public/sitemap.xml`
-
-## Endpoint access
-
-- Public: `/login`, `/logout`, `/about`, `/sitemap.xml`
-- Protected (requires authentication): `/dashboard`, `/routes`, `/health`
+- Symfony cache in route listing and IP request rate limiter
 
 ## Technical Stack
 
 - PHP 8
 - Symfony (LTS)
 - Doctrine DBAL
-- SQLite (`apps/web/var/app.db`)
+- SQLite
 - Docker / Docker Compose
+
+## Development Tooling
+
+- PHPStan (static analysis)
+- PHP-CS-Fixer (code style)
+- PHPUnit
+- Git hooks (pre-commit / pre-push)
+- GitHub Actions CI
 
 More details about the Symfony application can be found in:
 [apps/web/README.md](apps/web/README.md)
-
-## Dashboard authentication
-
-Dashboard endpoints use Symfony Security form login with credentials stored in SQLite.
-
-Create or update a user from inside the web container:
-
-```bash
-php bin/console app:dashboard-user:create <username>
-```
-
-If `--password` is not provided, the command prompts for it.
 
 ## How to setup local development
 
